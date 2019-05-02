@@ -10,8 +10,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       year: (new Date()).getFullYear(),
-      povertyData: {},
-      loading: false
+      povertyData: [],
+      country: "",
+      loading: false,
+      failGetInfo: false
     };
     this.onSelectCountry = this.onSelectCountry.bind(this);
   }
@@ -25,36 +27,52 @@ class App extends React.Component {
 
   getPovertyData(indicatorArray) {
     this.setState({
-      povertyData: {
-        share_0_20: indicatorArray[0],
-        share_20_40: indicatorArray[1],
-        share_40_60: indicatorArray[2],
-        share_60_80: indicatorArray[3],
-        share_80_100: parseFloat((100 - (indicatorArray[0] + indicatorArray[1] + indicatorArray[2] + indicatorArray[3]))
-          .toFixed(1)),
-      }
+      povertyData: [
+        {
+          name: "0-20%",
+          value: parseFloat((100 - (indicatorArray[0] + indicatorArray[1] + indicatorArray[2] + indicatorArray[3])).toFixed(1))
+        },
+        {
+          name: "20-40%",
+          value: indicatorArray[3],
+        },
+        {
+          name: "40-60%",
+          value: indicatorArray[2],
+        },
+        {
+          name: "60-80%",
+          value: indicatorArray[1],
+        },
+        {
+          name: "80-100%",
+          value: indicatorArray[0]
+        }
+      ]
     });
   }
 
-  failGetInfo(country) {
-    this.setState({loading: false});
-    console.log('World Bank has no recent poverty info for country ' + country);
-  }
-
   onSelectCountry(countryObject) {
+    this.setState({country: countryObject.name});
     // get indicators query string
     const indicatorsQuery = this.indicators.join(';');
     this.setState({loading: true});
+    this.setState({failGetInfo: false});
     fetch(`https://api.worldbank.org/v2/country/${countryObject.code}/indicator/${indicatorsQuery}?source=2&format=json&date=${this.state.year}`)
       .then(res => res.json())
       .then(
         (res) => {
+          if(!res || !res[0] || res[0].message) {
+            this.setState({failGetInfo: true, loading: false});
+            this.setState({year: (new Date()).getFullYear()}); // reset year
+            return;
+          }
           if(res[0].pages !== 0 && res[1].every(indicator => indicator.value != null)) {
             this.setState({loading: false});
             this.getPovertyData(res[1].map(indicator => indicator.value));
           } else {
             if(this.state.year <  (new Date()).getFullYear() - 10) {
-              this.failGetInfo(countryObject.name);
+              this.setState({failGetInfo: true, loading: false});
               this.setState({year: (new Date()).getFullYear()}); // reset year
             } else {
               this.setState({year: this.state.year - 1});
@@ -69,7 +87,11 @@ class App extends React.Component {
     return (
       <div className="App d-flex flex-column">
         <SearchBar onSelectCountry={this.onSelectCountry} />
-        <PovertyDiagram povertyData={this.state.povertyData} className={"flex-grow-1" + (this.state.loading ? " invisible" : "")}/>
+        <div className="flex-grow-1">
+          <PovertyDiagram povertyData={this.state.povertyData} className={this.state.loading || this.state.failGetInfo ? "d-none" : ""}/>
+          <p className={this.state.failGetInfo ? "" : "d-none"}>World Bank does not have recent poverty distribution data for '{this.state.country}' :(</p>
+          <p className={this.state.loading ? "" : "d-none"}>Loading...</p>
+        </div>
       </div>
     );
   }

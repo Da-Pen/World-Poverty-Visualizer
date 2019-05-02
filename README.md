@@ -66,3 +66,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+### notes:
+- autocomplete input with react-autocomplete
+- bootstrap
+- scss
+- d3 data visualization library
+- World Bank API
