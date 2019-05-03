@@ -26,7 +26,7 @@ export default class SearchBar extends React.Component {
 
     inputWrapperStyle = {
         width: '60%',
-        margin: '50px auto 0 auto'
+        margin: '30px auto 0 auto'
     }
 
     render() {

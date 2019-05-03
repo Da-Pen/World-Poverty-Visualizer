@@ -6,8 +6,6 @@ d3.tip = d3Tip;
 
 export default class PovertyDiagram extends React.Component {
 
-    margin = 1;
-
     render() {
         return (
             <div className={"PovertyDiagram " + this.props.className}>
@@ -25,7 +23,7 @@ export default class PovertyDiagram extends React.Component {
 
         let containerBox = d3.select('.PovertyDiagram').node().getBoundingClientRect();
 
-        var margin = {top: 40, right: 20, bottom: 50, left: 70},
+        var margin = {top: 10, right: 20, bottom: 50, left: 70},
         width = containerBox.width - margin.left - margin.right,
         height = containerBox.height - margin.top - margin.bottom;
     

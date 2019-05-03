@@ -88,7 +88,10 @@ class App extends React.Component {
       <div className="App d-flex flex-column">
         <SearchBar onSelectCountry={this.onSelectCountry} />
         <div className="flex-grow-1 px-5">
-          <PovertyDiagram povertyData={this.state.povertyData} className={this.state.loading || this.state.failGetInfo ? "d-none" : ""}/>
+          <div className={!this.state.country || this.state.loading || this.state.failGetInfo ? "d-none" : "d-flex flex-column w-100 h-100"}>
+            <h4 className="text-center pt-3">{`Poverty distribution for ${this.state.country} in ${this.state.year}` }</h4>
+            <PovertyDiagram povertyData={this.state.povertyData} className="flex-grow-1" />
+          </div>
           <p className={"text-center pt-5 " + (this.state.failGetInfo ? "" : "d-none")}>World Bank does not have recent poverty distribution data for '{this.state.country}' :(</p>
           <p className={"text-center pt-5 " + (this.state.loading ? "" : "d-none")}>Loading...</p>
         </div>
