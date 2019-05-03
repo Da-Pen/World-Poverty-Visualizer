@@ -87,10 +87,10 @@ class App extends React.Component {
     return (
       <div className="App d-flex flex-column">
         <SearchBar onSelectCountry={this.onSelectCountry} />
-        <div className="flex-grow-1">
+        <div className="flex-grow-1 px-5">
           <PovertyDiagram povertyData={this.state.povertyData} className={this.state.loading || this.state.failGetInfo ? "d-none" : ""}/>
-          <p className={this.state.failGetInfo ? "" : "d-none"}>World Bank does not have recent poverty distribution data for '{this.state.country}' :(</p>
-          <p className={this.state.loading ? "" : "d-none"}>Loading...</p>
+          <p className={"text-center pt-5 " + (this.state.failGetInfo ? "" : "d-none")}>World Bank does not have recent poverty distribution data for '{this.state.country}' :(</p>
+          <p className={"text-center pt-5 " + (this.state.loading ? "" : "d-none")}>Loading...</p>
         </div>
       </div>
     );

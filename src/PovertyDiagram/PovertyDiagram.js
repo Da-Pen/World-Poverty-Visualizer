@@ -23,12 +23,12 @@ export default class PovertyDiagram extends React.Component {
         
         let data = this.props.povertyData;
 
-        var margin = {top: 40, right: 20, bottom: 30, left: 40},
-        width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        let containerBox = d3.select('.PovertyDiagram').node().getBoundingClientRect();
+
+        var margin = {top: 40, right: 20, bottom: 50, left: 70},
+        width = containerBox.width - margin.left - margin.right,
+        height = containerBox.height - margin.top - margin.bottom;
     
-        var formatPercent = d3.format(".0%");
-        
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
         
@@ -42,13 +42,13 @@ export default class PovertyDiagram extends React.Component {
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .tickFormat(formatPercent);
+            .tickFormat(d => d + "%");
         
         var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            return "<strong>Frequency:</strong> <span style='color:red'>" + d.value + "</span>";
+            return `Income share held by ${d.name}: <span style='color: lightblue'>${d.value}%</span>`;
         })
         
         
@@ -77,7 +77,7 @@ export default class PovertyDiagram extends React.Component {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Frequency");
+            .text("Income share");
         
         svg.selectAll(".bar")
             .data(data)
@@ -88,69 +88,6 @@ export default class PovertyDiagram extends React.Component {
             .attr("y", function(d) { return y(d.value); })
             .attr("height", function(d) { return height - y(d.value); })
             .on('mouseover', tip.show)
-            .on('mouseout', tip.hide)    
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // d3.selectAll('svg').remove(); // remove old canvas
-        // let canvas = d3.select('.PovertyDiagram')
-        //     .append('svg')
-        //     .attr('width', '100%')
-        //     .attr('height', '100%');
-        
-        // // calculate largest bar
-        // let highestBar = 0.0;
-        // for(let propertyName in data) {
-        //     if(data[propertyName] > highestBar) {
-        //         highestBar = data[propertyName];
-        //     }
-        // }
-
-        // const bars = [
-        //     {
-        //         height: this.props.povertyData.share_80_100,
-        //         width: 20
-        //     },
-        //     {
-        //         height: this.props.povertyData.share_60_80,
-        //         width: 20,
-        //     },
-        //     {
-        //         height: this.props.povertyData.share_40_60,
-        //         width: 20
-        //     },
-        //     {
-        //         height: this.props.povertyData.share_20_40,
-        //         width: 20
-        //     },
-        //     {
-        //         height: this.props.povertyData.share_0_20,
-        //         width: 20
-        //     }
-        // ];
-        
-        // let curX = 0;
-        // bars.forEach(bar => {
-        //     canvas.append('rect')
-        //         .attr('x', (curX + this.margin) + '%')
-        //         .attr('y', (100*(1 - (bar.height / highestBar))) + "%")
-        //         .attr('width', (bar.width - 2*this.margin) + '%')
-        //         .attr('height', (100*(bar.height / highestBar)) + "%")
-        //         .attr('fill', 'steelblue')
-        //     curX += bar.width;
-        // });
+            .on('mouseout', tip.hide)
     }
-
-    // componentDidMount() {
-    // }
 }

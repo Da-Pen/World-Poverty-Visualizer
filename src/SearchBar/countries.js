@@ -105,7 +105,7 @@ export const countries = [
     },
     {
         code: "BO",
-        name: "Bolivia (Plurinational State of)"
+        name: "Bolivia"
     },
     {
         code: "BQ",
@@ -289,7 +289,7 @@ export const countries = [
     },
     {
         code: "FK",
-        name: "Falkland Islands (Malvinas)"
+        name: "Falkland Islands"
     },
     {
         code: "FO",
@@ -421,7 +421,7 @@ export const countries = [
     },
     {
         code: "IR",
-        name: "Iran (Islamic Republic of)"
+        name: "Iran"
     },
     {
         code: "IQ",
@@ -577,7 +577,7 @@ export const countries = [
     },
     {
         code: "FM",
-        name: "Micronesia (Federated States of)"
+        name: "Federated States of Micronesia"
     },
     {
         code: "MD",
@@ -961,19 +961,19 @@ export const countries = [
     },
     {
         code: "VE",
-        name: "Venezuela (Bolivarian Republic of)"
+        name: "Venezuela"
     },
     {
         code: "VN",
-        name: "Viet Nam"
+        name: "Vietnam"
     },
     {
         code: "VG",
-        name: "Virgin Islands (British)"
+        name: "British Virgin Islands"
     },
     {
         code: "VI",
-        name: "Virgin Islands (U.S.)"
+        name: "U.S. Virgin Islands"
     },
     {
         code: "WF",
